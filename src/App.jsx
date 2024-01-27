@@ -27,16 +27,46 @@ import AddFriend from "./components/AddFriend";
 
 export default function App() {
   const [toggleAddFriend, setToggleAddFriend] = useState();
+  const [friendList, setFriendList] = useState(initialFriends);
 
   function onToggleAddFriend() {
     setToggleAddFriend((prevState) => !prevState);
   }
 
+  function generateRandomNum() {
+    const min = 100000;
+    const max = 999999;
+    const num = Math.floor(Math.random(max - min + 1) * min);
+    return num;
+  }
+
+  function addFriend(name) {
+    const newFriendId = Math.random();
+    const newFriendImage = `https://i.pravatar.cc/48?u=${generateRandomNum()}`;
+    const newFriend = {
+      id: newFriendId,
+      name,
+      image: newFriendImage,
+      balance: 0,
+    };
+    setFriendList((prevState) => [...prevState, newFriend]);
+    console.log(friendList);
+  }
+
   return (
     <div className="app">
-      <FriendList friendList={initialFriends} onAddFriend={onToggleAddFriend} />
+      <FriendList
+        friendList={friendList}
+        onAddFriend={onToggleAddFriend}
+        buttonState={toggleAddFriend}
+      />
       <Form />
-      {toggleAddFriend && <AddFriend />}
+      {toggleAddFriend && (
+        <AddFriend
+          onAddToggleFriend={onToggleAddFriend}
+          onAddFriend={addFriend}
+        />
+      )}
     </div>
   );
 }

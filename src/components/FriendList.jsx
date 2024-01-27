@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function FriendList({ friendList, onAddFriend }) {
+export default function FriendList({ friendList, onAddFriend, buttonState }) {
   function handleToggle() {
     onAddFriend();
   }
@@ -19,9 +19,11 @@ export default function FriendList({ friendList, onAddFriend }) {
           );
         })}
       </ul>
-      <button className="button" onClick={handleToggle}>
-        Add Friend
-      </button>
+      {!buttonState && (
+        <button className="button" onClick={handleToggle}>
+          Add Friend
+        </button>
+      )}
     </div>
   );
 }
