@@ -28,6 +28,7 @@ import AddFriend from "./components/AddFriend";
 export default function App() {
   const [toggleAddFriend, setToggleAddFriend] = useState();
   const [friendList, setFriendList] = useState(initialFriends);
+  const [selectedFriend, setSelectedFriend] = useState();
 
   function onToggleAddFriend() {
     setToggleAddFriend((prevState) => !prevState);
@@ -53,14 +54,31 @@ export default function App() {
     console.log(friendList);
   }
 
+  function changeBillState(friendId) {
+    const friend = friendList
+      .slice()
+      .filter((friend) => friend.id === friendId);
+    setSelectedFriend(() => friend);
+  }
+
+  function handleUpdateList(friendId, balance) {
+    setFriendList((prevState) => {
+      const updatedFriends = prevState.map((friend) =>
+        friend.id === friendId ? { ...friend, balance: balance } : friend
+      );
+      return updatedFriends;
+    });
+  }
+
   return (
     <div className="app">
       <FriendList
         friendList={friendList}
         onAddFriend={onToggleAddFriend}
         buttonState={toggleAddFriend}
+        onSelectFriend={changeBillState}
       />
-      <Form />
+      <Form selectedFriend={selectedFriend} onUpdateList={handleUpdateList} />
       {toggleAddFriend && (
         <AddFriend
           onAddToggleFriend={onToggleAddFriend}
