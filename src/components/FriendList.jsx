@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function FriendList({ friendList }) {
+export default function FriendList({ friendList, onAddFriend }) {
+  function handleToggle() {
+    onAddFriend();
+  }
+
   return (
     <div className="sidebar">
       <ul>
@@ -15,7 +19,9 @@ export default function FriendList({ friendList }) {
           );
         })}
       </ul>
-      <button className="button">Add Friend</button>
+      <button className="button" onClick={handleToggle}>
+        Add Friend
+      </button>
     </div>
   );
 }

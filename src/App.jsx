@@ -21,16 +21,22 @@ const initialFriends = [
   },
 ];
 
-import React from "react";
+import React, { useState } from "react";
 import Form from "./components/Form";
 import AddFriend from "./components/AddFriend";
 
 export default function App() {
+  const [toggleAddFriend, setToggleAddFriend] = useState();
+
+  function onToggleAddFriend() {
+    setToggleAddFriend((prevState) => !prevState);
+  }
+
   return (
     <div className="app">
-      <FriendList friendList={initialFriends} />
+      <FriendList friendList={initialFriends} onAddFriend={onToggleAddFriend} />
       <Form />
-      <AddFriend />
+      {toggleAddFriend && <AddFriend />}
     </div>
   );
 }
